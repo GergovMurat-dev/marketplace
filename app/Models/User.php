@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\UserTypesEnum;
+use App\Enums\User\UserTypesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
