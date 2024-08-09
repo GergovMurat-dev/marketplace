@@ -25,7 +25,7 @@ class CompanyResource extends Resource
 
     protected static ?string $navigationGroup = 'Платформа';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
@@ -88,6 +88,8 @@ class CompanyResource extends Resource
             'index' => Pages\ListCompanies::route('/'),
             'create' => Pages\CreateCompany::route('/create'),
             'edit' => Pages\EditCompany::route('/{record}/edit'),
+            'products' => Pages\ListCompanyProducts::route('/{record}/products'),
+            'product-edit' => Pages\EditProduct::route('/{record}/products/{product}'),
         ];
     }
 
@@ -99,7 +101,11 @@ class CompanyResource extends Resource
                 PageNavigationItem::make('Редактировать')
                     ->icon(Pages\EditCompany::getNavigationIcon())
                     ->isActiveWhen(fn() => request()->routeIs(Pages\EditCompany::getRouteName()))
-                    ->url(fn() => static::getUrl('edit', ['record' => $record->id]))
+                    ->url(fn() => static::getUrl('edit', ['record' => $record->id])),
+                PageNavigationItem::make('Товары')
+                    ->icon(Pages\EditProduct::getNavigationIcon())
+                    ->isActiveWhen(fn() => request()->routeIs(Pages\ListCompanyProducts::getRouteName(), Pages\EditProduct::getRouteName()))
+                    ->url(fn() => static::getUrl('products', ['record' => $record->id])),
             ]);
     }
 

@@ -17,7 +17,7 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
     protected static ?string $pluralModelLabel = 'Товары';
 
@@ -28,7 +28,6 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->columns(3)
             ->schema([
                 Section::make()
                     ->columnSpan(2)
@@ -41,9 +40,11 @@ class ProductResource extends Resource
                                 TextInput::make('sku')
                                     ->translateLabel(),
                                 TextInput::make('price')
+                                    ->numeric()
                                     ->translateLabel()
                                     ->postfix('₽'),
                                 TextInput::make('old_price')
+                                    ->numeric()
                                     ->translateLabel()
                                     ->postfix('₽')
                             ]),
@@ -63,6 +64,7 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordUrl(null)
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->translateLabel()
@@ -75,7 +77,13 @@ class ProductResource extends Resource
                     ->money('rub')
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->url(function (Product $record) {
+                        return CompanyResource::getUrl('product-edit', [
+                            'record' => $record->company_id,
+                            'product' => $record->id,
+                        ]);
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -88,7 +96,6 @@ class ProductResource extends Resource
     {
         return [
             'index' => Pages\ListProducts::route('/'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 

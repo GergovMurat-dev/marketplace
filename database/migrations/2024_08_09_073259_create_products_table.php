@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->integer('sku')->default(10000000);
             $table->text('description')->nullable();
             $table->text('short_description')->nullable();
-            $table->decimal('price')->default(0.00);
-            $table->decimal('old_price')->default(0.00);
+            $table->decimal('price', 15)->default(0.00);
+            $table->decimal('old_price', 15)->default(0.00);
         });
     }
 

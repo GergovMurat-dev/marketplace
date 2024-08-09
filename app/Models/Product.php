@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property string $name
  * @property string $description
+ * @property int $company_id
  * @property string $short_description
  * @property float $price
  * @property float $old_price
@@ -26,7 +27,8 @@ class Product extends Model
         'short_description',
         'price',
         'old_price',
-        'sku'
+        'sku',
+        'company_id'
     ];
 
     protected $casts = [
