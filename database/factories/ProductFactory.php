@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -10,11 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ProductFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+
     public function definition(): array
     {
         return [
@@ -22,6 +19,19 @@ class ProductFactory extends Factory
             'description' => $this->faker->text,
             'price' => $this->faker->randomFloat(2, 10, 100),
             'old_price' => $this->faker->randomFloat(2, 10, 100),
+            'company_id' => Company::query(),
+            'sku' => function (array $attributes) {
+                return $this->generateUniqueSkuForCompany($attributes['company_id']);
+            }
         ];
+    }
+
+    private function generateUniqueSkuForCompany($companyId): int
+    {
+        do {
+            $sku = str_pad(random_int(0, 99999999), 8, '0', STR_PAD_LEFT);;
+        } while (Product::where('company_id', $companyId)->where('sku', $sku)->exists());
+
+        return $sku;
     }
 }

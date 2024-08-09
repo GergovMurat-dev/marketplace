@@ -6,12 +6,16 @@ use App\Enums\User\UserCompanyTypesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Ramsey\Collection\Collection;
 
 /**
  * @property int $id
  * @property int $user_id
  * @property string $name
  * @property UserCompanyTypesEnum $type
+ *
+ * @property Collection<Product> $products
  */
 class Company extends Model
 {
@@ -30,5 +34,10 @@ class Company extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 }

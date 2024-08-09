@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $short_description
  * @property float $price
  * @property float $old_price
+ *
+ * @property Company $company
  */
 class Product extends Model
 {
@@ -31,4 +34,9 @@ class Product extends Model
         'old_price' => 'float',
         'sku' => 'int'
     ];
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
 }
