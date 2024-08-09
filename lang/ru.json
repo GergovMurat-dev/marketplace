@@ -40,5 +40,9 @@
     "Whoops!": "Упс!",
     "You are receiving this email because we received a password reset request for your account.": "Вы получили это письмо, потому что мы получили запрос на сброс пароля для Вашей учётной записи.",
     "Name": "Название",
-    "Type": "Тип"
+    "Type": "Тип",
+    "Price": "Цена",
+    "Old price": "Старая цена",
+    "Description": "Описание",
+    "Short description": "Короткое описание"
 }
