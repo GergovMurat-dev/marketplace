@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\User\UserTypesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -35,4 +36,9 @@ class User extends Authenticatable
         'password' => 'hashed',
         'type' => UserTypesEnum::class
     ];
+
+    public function company(): HasOne
+    {
+        return $this->hasOne(Company::class);
+    }
 }

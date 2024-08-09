@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 class PrepareProjectCommand extends Command
 {
-    protected $signature = 'app:prepare-project';
+    protected $signature = 'app:prepare';
 
     protected $description = 'Подготовка необходимых сущностей/данных';
 

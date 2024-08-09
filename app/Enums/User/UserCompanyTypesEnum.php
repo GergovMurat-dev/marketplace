@@ -2,10 +2,11 @@
 
 namespace App\Enums\User;
 
-enum UserActivitiesEnum: string
+enum UserCompanyTypesEnum: string
 {
     case OOO = 'OOO';
     case IP = 'IP';
+    case SAMOZANYATYY = 'SAMOZANYATYY';
 
     public function getLabel(): string
     {
@@ -16,7 +17,8 @@ enum UserActivitiesEnum: string
     {
         return [
             self::OOO->value => 'ООО',
-            self::IP->value => 'IP',
+            self::IP->value => 'ИП',
+            self::SAMOZANYATYY->value => 'Самозанятый'
         ];
     }
 
@@ -25,6 +27,7 @@ enum UserActivitiesEnum: string
         return [
             self::OOO,
             self::IP,
+            self::SAMOZANYATYY
         ];
     }
 }
