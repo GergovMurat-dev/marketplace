@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\User\UserCompanyTypesEnum;
-use App\Enums\User\UserTypesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $user_id
  * @property string $name
- * @property UserTypesEnum $type
+ * @property UserCompanyTypesEnum $type
  */
 class Company extends Model
 {

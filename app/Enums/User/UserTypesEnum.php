@@ -8,7 +8,7 @@ enum UserTypesEnum: string
     case seller = 'seller';
     case buyer = 'buyer';
 
-    public function label(): string
+    public function getLabel(): string
     {
         return self::getAllWithLabel()[$this->value];
     }

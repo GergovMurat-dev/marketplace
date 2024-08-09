@@ -13,7 +13,7 @@ enum UserCompanyTypesEnum: string
         return self::getAllWithLabels()[$this->value];
     }
 
-    public function getAllWithLabels(): array
+    public static function getAllWithLabels(): array
     {
         return [
             self::OOO->value => 'ООО',
