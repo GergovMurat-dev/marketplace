@@ -89,7 +89,7 @@ class CompanyResource extends Resource
             'create' => Pages\CreateCompany::route('/create'),
             'edit' => Pages\EditCompany::route('/{record}/edit'),
             'products' => Pages\ListCompanyProducts::route('/{record}/products'),
-            'product-edit' => Pages\EditProduct::route('/{record}/products/{product}'),
+            'product-edit' => Pages\EditProduct::route('/{record}/products/{product}/edit'),
         ];
     }
 
