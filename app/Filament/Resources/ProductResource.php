@@ -98,9 +98,4 @@ class ProductResource extends Resource
             'index' => Pages\ListProducts::route('/'),
         ];
     }
-
-    public static function canCreate(): bool
-    {
-        return false;
-    }
 }

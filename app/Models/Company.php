@@ -16,6 +16,7 @@ use Ramsey\Collection\Collection;
  * @property UserCompanyTypesEnum $type
  *
  * @property Collection<Product> $products
+ * @property Collection<Category> $categories
  */
 class Company extends Model
 {
@@ -39,5 +40,10 @@ class Company extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
     }
 }

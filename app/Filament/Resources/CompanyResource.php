@@ -90,6 +90,8 @@ class CompanyResource extends Resource
             'edit' => Pages\EditCompany::route('/{record}/edit'),
             'products' => Pages\ListCompanyProducts::route('/{record}/products'),
             'product-edit' => Pages\EditProduct::route('/{record}/products/{product}/edit'),
+            'categories' => Pages\ListCompanyCategories::route('/{record}/categories'),
+            'category-edit' => Pages\EditCategory::route('/{record}/categories/{category}/edit'),
         ];
     }
 
@@ -106,6 +108,10 @@ class CompanyResource extends Resource
                     ->icon(Pages\EditProduct::getNavigationIcon())
                     ->isActiveWhen(fn() => request()->routeIs(Pages\ListCompanyProducts::getRouteName(), Pages\EditProduct::getRouteName()))
                     ->url(fn() => static::getUrl('products', ['record' => $record->id])),
+                PageNavigationItem::make('Категории')
+                    ->icon(Pages\ListCompanyCategories::getNavigationIcon())
+                    ->isActiveWhen(fn() => request()->routeIs(Pages\ListCompanyCategories::getRouteName()))
+                    ->url(fn() => static::getUrl('categories', ['record' => $record->id])),
             ]);
     }
 

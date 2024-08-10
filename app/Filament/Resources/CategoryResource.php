@@ -17,6 +17,8 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -53,7 +55,13 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('slug')
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->url(function (Category $record) {
+                        return CompanyResource::getUrl('category-edit', [
+                            'record' => $record->company_id,
+                            'category' => $record->id
+                        ]);
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

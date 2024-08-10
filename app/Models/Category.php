@@ -14,8 +14,10 @@ use Ramsey\Collection\Collection;
  * @property string $slug
  * @property bool $is_active
  * @property int $parent_id
+ * @property int $company_id
  *
  * @property Category $parent
+ * @property Company $company
  * @property Collection<Category> $children
  */
 class Category extends Model
