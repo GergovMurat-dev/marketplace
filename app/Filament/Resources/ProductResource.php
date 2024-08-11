@@ -51,8 +51,12 @@ class ProductResource extends Resource
                                     ->numeric()
                                     ->translateLabel()
                                     ->postfix('₽'),
-                                Select::make('category_id')
+                                Select::make('categories')
+                                    ->relationship(
+                                        name: 'categories',
+                                    )
                                     ->label('Категория')
+                                    ->multiple()
                                     ->required()
                                     ->native(false)
                                     ->options(function (Product $record) {
