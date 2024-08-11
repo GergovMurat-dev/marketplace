@@ -19,6 +19,7 @@ use Ramsey\Collection\Collection;
  * @property Category $parent
  * @property Company $company
  * @property Collection<Category> $children
+ * @property Collection<Product> $products
  */
 class Category extends Model
 {
@@ -40,5 +41,10 @@ class Category extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 }

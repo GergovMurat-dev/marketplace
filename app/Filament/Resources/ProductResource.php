@@ -3,10 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
+use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -48,7 +50,27 @@ class ProductResource extends Resource
                                 TextInput::make('old_price')
                                     ->numeric()
                                     ->translateLabel()
-                                    ->postfix('₽')
+                                    ->postfix('₽'),
+                                Select::make('category_id')
+                                    ->label('Категория')
+                                    ->required()
+                                    ->native(false)
+                                    ->options(function (Product $record) {
+                                        $result = [];
+
+                                        Category::query()
+                                            ->where('company_id', $record->company_id)
+                                            ->with(['children'])
+                                            ->get()
+                                            ->each(function (Category $category) use (&$result) {
+                                                $result[$category->name] = $category
+                                                    ->children()
+                                                    ->pluck('name', 'id')
+                                                    ->toArray();
+                                            });
+
+                                        return $result;
+                                    })
                             ]),
                         Grid::make(1)
                             ->columnSpan(2)

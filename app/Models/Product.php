@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property string $name
  * @property string $description
- * @property int $company_id
  * @property string $short_description
  * @property float $price
  * @property float $old_price
+ * @property int $company_id
+ * @property int $category_id
  *
  * @property Company $company
  */
@@ -28,7 +29,8 @@ class Product extends Model
         'price',
         'old_price',
         'sku',
-        'company_id'
+        'company_id',
+        'category_id',
     ];
 
     protected $casts = [
@@ -40,5 +42,10 @@ class Product extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }
