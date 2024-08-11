@@ -94,7 +94,11 @@ class ListCompanyProducts extends ListRecords
                             ])
                     ])
             ])
-            ->action(function (array &$data, CompanyCommandAddProduct $command, Action $action) {
+            ->action(function (
+                array                    &$data,
+                CompanyCommandAddProduct $command,
+                Action                   $action
+            ) {
                 $data['companyId'] = $this->record->id;
 
                 $commandResult = $command->handle($data);

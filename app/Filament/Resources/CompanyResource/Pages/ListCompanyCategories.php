@@ -4,13 +4,21 @@ namespace App\Filament\Resources\CompanyResource\Pages;
 
 use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\CompanyResource;
+use App\Models\Category;
 use App\Models\Company;
+use App\UseCases\Commands\CompanyCommandAddCategory;
 use AymanAlhattami\FilamentPageWithSidebar\Traits\HasPageSidebar;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Set;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ListCompanyCategories extends ListRecords
 {
@@ -44,6 +52,55 @@ class ListCompanyCategories extends ListRecords
         return CategoryResource::table($table)
             ->query(
                 $this->record->categories()->getQuery()
-            );
+            )
+            ->headerActions([
+                $this->createAction()
+            ]);
+    }
+
+    private function createAction(): Action
+    {
+        return Action::make('Создать')
+            ->model(Category::class)
+            ->form([
+                Grid::make()->schema([
+                    TextInput::make('name')
+                        ->translateLabel()
+                        ->required()
+                        ->maxLength(255)
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function (string $operation, $state, Set $set) {
+                            $set('slug', Str::slug($state));
+                        }),
+
+                    TextInput::make('slug')
+                        ->disabled()
+                        ->dehydrated()
+                        ->required()
+                        ->maxLength(255),
+                ]),
+            ])
+            ->action(function (
+                array                     &$data,
+                CompanyCommandAddCategory $command,
+                Action                    $action
+            ) {
+                $data['companyId'] = $this->record->id;
+
+                $commandResult = $command->handle($data);
+
+                if ($commandResult->isError) {
+                    Notification::make()
+                        ->warning()
+                        ->title($commandResult->message)
+                        ->body(implode($commandResult->errors))
+                        ->duration(2000)
+                        ->send();
+                    $action->halt();
+                }
+
+                $action->success();
+            })
+            ->successNotificationTitle('Категория успешно создана');
     }
 }

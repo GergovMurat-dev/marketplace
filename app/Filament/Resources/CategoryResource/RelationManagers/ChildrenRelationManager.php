@@ -47,6 +47,7 @@ class ChildrenRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->translateLabel(),
+                Tables\Columns\TextColumn::make('slug')
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),

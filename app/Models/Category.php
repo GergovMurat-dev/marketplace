@@ -28,7 +28,8 @@ class Category extends Model
         'name',
         'slug',
         'is_active',
-        'parent_id'
+        'parent_id',
+        'company_id'
     ];
 
     public function parent(): BelongsTo
