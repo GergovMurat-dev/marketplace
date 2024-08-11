@@ -25,10 +25,10 @@ class CompanyCommandAddProduct
                 'name' => ['required', 'string'],
                 'sku' => ['required', 'string'],
                 'description' => ['nullable', 'string'],
-                'short_description' => ['nullable', 'string'],
+                'shortDescription' => ['nullable', 'string'],
                 'price' => ['nullable', 'numeric'],
-                'old_price' => ['nullable', 'numeric'],
-                'company_id' => ['nullable', 'exists:companies,id']
+                'oldPrice' => ['nullable', 'numeric'],
+                'companyId' => ['nullable', 'exists:companies,id']
             ]
         );
 
