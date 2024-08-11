@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Product\ProductStatusesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property float $price
  * @property float $old_price
  * @property int $company_id
- * @property int $category_id
+ * @property ProductStatusesEnum $status
  *
  * @property Company $company
  */
@@ -31,13 +32,14 @@ class Product extends Model
         'old_price',
         'sku',
         'company_id',
-        'category_id',
+        'status'
     ];
 
     protected $casts = [
         'price' => 'float',
         'old_price' => 'float',
-        'sku' => 'int'
+        'sku' => 'int',
+        'status' => ProductStatusesEnum::class,
     ];
 
     public function company(): BelongsTo

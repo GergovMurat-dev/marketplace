@@ -44,5 +44,7 @@
     "Price": "Цена",
     "Old price": "Старая цена",
     "Description": "Описание",
-    "Short description": "Короткое описание"
+    "Short description": "Короткое описание",
+    "Status": "Статус",
+    "Categories": "Категории"
 }
