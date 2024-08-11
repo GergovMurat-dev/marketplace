@@ -26,7 +26,7 @@ class OperationResult
     }
 
     public static function error(
-        string $message = '',
+        string $message,
         array  $errors = [],
         int    $code = 400
     ): self

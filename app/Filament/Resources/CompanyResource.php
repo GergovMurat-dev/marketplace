@@ -19,6 +19,10 @@ use Filament\Tables\Table;
 
 class CompanyResource extends Resource
 {
+    private const TRADING_PLATFORM = 'Торговая платформа';
+
+    private const COMPANY = 'Компания';
+
     protected static ?string $model = Company::class;
 
     protected static ?string $pluralModelLabel = 'Компании';
@@ -100,18 +104,25 @@ class CompanyResource extends Resource
         return FilamentPageSidebar::make()
             ->sidebarNavigation()
             ->setNavigationItems([
+                // Компания
                 PageNavigationItem::make('Редактировать')
                     ->icon(Pages\EditCompany::getNavigationIcon())
                     ->isActiveWhen(fn() => request()->routeIs(Pages\EditCompany::getRouteName()))
-                    ->url(fn() => static::getUrl('edit', ['record' => $record->id])),
+                    ->url(fn() => static::getUrl('edit', ['record' => $record->id]))
+                    ->group(self::COMPANY),
+
+                // Торговая площадка
                 PageNavigationItem::make('Товары')
                     ->icon(Pages\EditProduct::getNavigationIcon())
                     ->isActiveWhen(fn() => request()->routeIs(Pages\ListCompanyProducts::getRouteName(), Pages\EditProduct::getRouteName()))
-                    ->url(fn() => static::getUrl('products', ['record' => $record->id])),
+                    ->url(fn() => static::getUrl('products', ['record' => $record->id]))
+                    ->badge(fn() => $record->products()->count())
+                    ->group(self::TRADING_PLATFORM),
                 PageNavigationItem::make('Категории')
                     ->icon(Pages\ListCompanyCategories::getNavigationIcon())
                     ->isActiveWhen(fn() => request()->routeIs(Pages\ListCompanyCategories::getRouteName()))
-                    ->url(fn() => static::getUrl('categories', ['record' => $record->id])),
+                    ->url(fn() => static::getUrl('categories', ['record' => $record->id]))
+                    ->group(self::TRADING_PLATFORM),
             ]);
     }
 
