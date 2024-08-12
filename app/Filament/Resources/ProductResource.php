@@ -123,6 +123,7 @@ class ProductResource extends Resource
                     ->icon(fn(ProductStatusesEnum $state): string => match ($state) {
                         ProductStatusesEnum::active => 'heroicon-o-eye',
                         ProductStatusesEnum::disabled => 'heroicon-o-eye-slash',
+                        default => '',
                     })
                     ->color(fn(ProductStatusesEnum $state): string => match ($state) {
                         ProductStatusesEnum::active => 'success',

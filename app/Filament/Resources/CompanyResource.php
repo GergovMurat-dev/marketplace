@@ -90,7 +90,6 @@ class CompanyResource extends Resource
     {
         return [
             'index' => Pages\ListCompanies::route('/'),
-            'create' => Pages\CreateCompany::route('/create'),
             'edit' => Pages\EditCompany::route('/{record}/edit'),
             'products' => Pages\ListCompanyProducts::route('/{record}/products'),
             'product-edit' => Pages\EditProduct::route('/{record}/products/{product}/edit'),

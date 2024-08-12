@@ -2,6 +2,7 @@
 
 namespace App\Enums\User;
 
+// TODO: Убрать, заменить на filament-shield
 enum UserTypesEnum: string
 {
     case admin = 'admin';
