@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BrandResource\Pages;
 use App\Models\Brand;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -20,6 +19,12 @@ class BrandResource extends Resource
     protected static ?string $pluralModelLabel = 'Бренды';
 
     protected static ?string $modelLabel = 'Бренд';
+
+    protected static ?string $label = 'Бренд';
+
+    protected static bool $shouldRegisterNavigation = false;
+
+    protected static ?string $pluralLabel = 'Бренд';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -50,25 +55,24 @@ class BrandResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                    ->searchable()
+                    ->translateLabel(),
                 TextColumn::make('slug')
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->url(function (Brand $record) {
+                        return CompanyResource::getUrl('brand-edit', [
+                            'record' => $record->company_id,
+                            'brand' => $record->id,
+                        ]);
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListBrands::route('/'),
-            'create' => Pages\CreateBrand::route('/create'),
-            'edit' => Pages\EditBrand::route('/{record}/edit'),
-        ];
     }
 }

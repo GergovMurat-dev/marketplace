@@ -14,6 +14,8 @@ class ChildrenRelationManager extends RelationManager
 {
     protected static string $relationship = 'children';
 
+    protected static ?string $title = 'Подкатегории';
+
     public function form(Form $form): Form
     {
         return $form

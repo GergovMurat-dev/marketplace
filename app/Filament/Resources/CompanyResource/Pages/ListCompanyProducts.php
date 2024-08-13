@@ -44,6 +44,9 @@ class ListCompanyProducts extends ListRecords
     public function table(Table $table): Table
     {
         return ProductResource::table($table)
+            ->emptyStateHeading(
+                'Не найдено товаров'
+            )
             ->query(
                 $this->record
                     ->products()

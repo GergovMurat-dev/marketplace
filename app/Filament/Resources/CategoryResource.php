@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers\ChildrenRelationManager;
 use App\Models\Category;
 use Filament\Forms\Components\TextInput;
@@ -74,14 +73,6 @@ class CategoryResource extends Resource
     {
         return [
             ChildrenRelationManager::class,
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListCategories::route('/'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

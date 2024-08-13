@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources\CompanyResource\Pages;
 
-use App\Filament\Resources\CategoryResource;
+use App\Filament\Resources\BrandResource;
 use App\Filament\Resources\CompanyResource;
-use App\Models\Category;
 use App\Models\Company;
-use App\UseCases\Commands\CompanyCommandAddCategory;
+use App\UseCases\Commands\CompanyCommandAddBrand;
 use AymanAlhattami\FilamentPageWithSidebar\Traits\HasPageSidebar;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -20,16 +19,16 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class ListCompanyCategories extends ListRecords
+class ListCompanyBrands extends ListRecords
 {
     use InteractsWithRecord, HasPageSidebar;
 
     protected static string $resource = CompanyResource::class;
 
-    protected static ?string $title = 'Категории';
+    protected static ?string $title = 'Бренды';
 
     /** @var Company */
-    public string|int|null|Model $record;
+    public Model|int|string|null $record;
     public ?array $data = [];
 
     public function mount(): void
@@ -39,7 +38,7 @@ class ListCompanyCategories extends ListRecords
 
     public static function getNavigationIcon(): string|Htmlable|null
     {
-        return 'heroicon-o-tag';
+        return 'heroicon-o-shopping-bag';
     }
 
     public function getBreadcrumb(): ?string
@@ -49,12 +48,16 @@ class ListCompanyCategories extends ListRecords
 
     public function table(Table $table): Table
     {
-        return CategoryResource::table($table)
+        return BrandResource::table($table)
             ->emptyStateHeading(
-                'Не найдено категорий'
+                'Не найдено брендов'
             )
             ->query(
-                $this->record->categories()->getQuery()
+                $this
+                    ->record
+                    ->brands()
+                    ->orderBy('created_at', 'desc')
+                    ->getQuery()
             )
             ->headerActions([
                 $this->createAction()
@@ -64,29 +67,31 @@ class ListCompanyCategories extends ListRecords
     private function createAction(): Action
     {
         return Action::make('Создать')
-            ->model(Category::class)
             ->form([
-                Grid::make()->schema([
-                    TextInput::make('name')
-                        ->translateLabel()
-                        ->required()
-                        ->maxLength(255)
-                        ->live(onBlur: true)
-                        ->afterStateUpdated(function (string $operation, $state, Set $set) {
-                            $set('slug', Str::slug($state));
-                        }),
+                Grid::make()
+                    ->schema([
+                        TextInput::make('name')
+                            ->required()
+                            ->translateLabel()
+                            ->live(
+                                onBlur: true
+                            )
+                            ->afterStateUpdated(function (string $state, Set $set) {
+                                $set('slug', Str::slug($state));
+                            }),
 
-                    TextInput::make('slug')
-                        ->disabled()
-                        ->dehydrated()
-                        ->required()
-                        ->maxLength(255),
-                ]),
+                        TextInput::make('slug')
+                            ->disabled()
+                            ->dehydrated()
+                            ->required()
+                            ->translateLabel()
+                            ->maxLength(255),
+                    ]),
             ])
             ->action(function (
-                array                     &$data,
-                CompanyCommandAddCategory $command,
-                Action                    $action
+                array                  &$data,
+                CompanyCommandAddBrand $command,
+                Action                 $action,
             ) {
                 $data['companyId'] = $this->record->id;
 
@@ -104,6 +109,6 @@ class ListCompanyCategories extends ListRecords
 
                 $action->success();
             })
-            ->successNotificationTitle('Категория успешно создана');
+            ->successNotificationTitle('Бренд успешно создан');
     }
 }

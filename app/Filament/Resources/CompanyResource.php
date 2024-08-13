@@ -95,6 +95,8 @@ class CompanyResource extends Resource
             'product-edit' => Pages\EditProduct::route('/{record}/products/{product}/edit'),
             'categories' => Pages\ListCompanyCategories::route('/{record}/categories'),
             'category-edit' => Pages\EditCategory::route('/{record}/categories/{category}/edit'),
+            'brands' => Pages\ListCompanyBrands::route('/{record}/brands'),
+            'brand-edit' => Pages\EditBrand::route('/{record}/brands/{brand}/edit'),
         ];
     }
 
@@ -117,9 +119,14 @@ class CompanyResource extends Resource
                     ->url(fn() => static::getUrl('products', ['record' => $record->id]))
                     ->badge(fn() => $record->products()->count())
                     ->group(self::TRADING_PLATFORM),
+                PageNavigationItem::make('Бренды')
+                    ->icon(Pages\ListCompanyBrands::getNavigationIcon())
+                    ->isActiveWhen(fn() => request()->routeIs(Pages\ListCompanyBrands::getRouteName(), Pages\EditBrand::getRouteName()))
+                    ->url(fn() => static::getUrl('brands', ['record' => $record->id]))
+                    ->group(self::TRADING_PLATFORM),
                 PageNavigationItem::make('Категории')
                     ->icon(Pages\ListCompanyCategories::getNavigationIcon())
-                    ->isActiveWhen(fn() => request()->routeIs(Pages\ListCompanyCategories::getRouteName()))
+                    ->isActiveWhen(fn() => request()->routeIs(Pages\ListCompanyCategories::getRouteName(), Pages\EDitCategory::getRouteName()))
                     ->url(fn() => static::getUrl('categories', ['record' => $record->id]))
                     ->group(self::TRADING_PLATFORM),
             ]);
