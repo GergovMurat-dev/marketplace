@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\Product\ProductStatusesEnum;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms\Components\Grid;
@@ -53,29 +54,45 @@ class ProductResource extends Resource
                                     ->numeric()
                                     ->translateLabel()
                                     ->postfix('₽'),
-                                Select::make('categories')
-                                    ->translateLabel()
-                                    ->multiple()
-                                    ->required(fn(Get $get) => $get('status') !== ProductStatusesEnum::disabled->value)
-                                    ->native(false)
-                                    ->relationship(
-                                        name: 'categories',
-                                    )
-                                    ->options(function (Product $record) {
-                                        $result = [];
+                                Grid::make(1)
+                                    ->columnSpan(1)
+                                    ->schema([
+                                        Select::make('categories')
+                                            ->translateLabel()
+                                            ->multiple()
+                                            ->required(fn(Get $get) => $get('status') !== ProductStatusesEnum::disabled->value)
+                                            ->native(false)
+                                            ->relationship(
+                                                name: 'categories',
+                                            )
+                                            ->options(function (Product $record) {
+                                                $result = [];
 
-                                        Category::query()
-                                            ->where('company_id', $record->company_id)
-                                            ->get()
-                                            ->each(function (Category $category) use (&$result) {
-                                                $result[$category->name] = $category
-                                                    ->children()
-                                                    ->pluck('name', 'id')
-                                                    ->toArray();
-                                            });
+                                                Category::query()
+                                                    ->where('company_id', $record->company_id)
+                                                    ->get()
+                                                    ->each(function (Category $category) use (&$result) {
+                                                        $result[$category->name] = $category
+                                                            ->children()
+                                                            ->pluck('name', 'id')
+                                                            ->toArray();
+                                                    });
 
-                                        return $result;
-                                    }),
+                                                return $result;
+                                            }),
+                                        Select::make('brand')
+                                            ->translateLabel()
+                                            ->native(false)
+                                            ->relationship(
+                                                name: 'brand',
+                                            )
+                                            ->options(function (Product $record) {
+                                                return Brand::query()
+                                                    ->where('company_id', $record->company_id)
+                                                    ->get()
+                                                    ->pluck('name', 'id');
+                                            })
+                                    ]),
                                 Select::make('status')
                                     ->native(false)
                                     ->translateLabel()
@@ -116,6 +133,10 @@ class ProductResource extends Resource
                     ->money('rub'),
                 Tables\Columns\TextColumn::make('categories.name')
                     ->translateLabel()
+                    ->badge(),
+                Tables\Columns\TextColumn::make('brand.name')
+                    ->translateLabel()
+                    ->searchable()
                     ->badge(),
                 Tables\Columns\IconColumn::make('status')
                     ->translateLabel()

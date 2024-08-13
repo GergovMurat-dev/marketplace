@@ -16,9 +16,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property float $price
  * @property float $old_price
  * @property int $company_id
+ * @property int $brand_id
  * @property ProductStatusesEnum $status
  *
  * @property Company $company
+ * @property Brand $brand
  */
 class Product extends Model
 {
@@ -32,6 +34,7 @@ class Product extends Model
         'old_price',
         'sku',
         'company_id',
+        'brand_id',
         'status'
     ];
 
@@ -55,5 +58,10 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
     }
 }
