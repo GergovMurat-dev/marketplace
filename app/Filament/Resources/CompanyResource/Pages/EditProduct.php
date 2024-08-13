@@ -49,6 +49,11 @@ class EditProduct extends EditRecord
         return $this->product;
     }
 
+    public function getRecordTitle(): string|Htmlable
+    {
+        return 'товар';
+    }
+
     public function form(Form $form): Form
     {
         return ProductResource::form($form);

@@ -61,6 +61,11 @@ class EditCategory extends EditRecord
         ];
     }
 
+    public function getRecordTitle(): string|Htmlable
+    {
+        return 'категорию';
+    }
+
     protected function getHeaderActions(): array
     {
         return [

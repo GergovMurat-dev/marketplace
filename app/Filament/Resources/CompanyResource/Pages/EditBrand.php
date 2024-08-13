@@ -10,6 +10,7 @@ use AymanAlhattami\FilamentPageWithSidebar\Traits\HasPageSidebar;
 use Filament\Actions;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 
 class EditBrand extends EditRecord
@@ -46,6 +47,11 @@ class EditBrand extends EditRecord
     public function form(Form $form): Form
     {
         return BrandResource::form($form);
+    }
+
+    public function getRecordTitle(): string|Htmlable
+    {
+        return 'бренд';
     }
 
     protected function getHeaderActions(): array
