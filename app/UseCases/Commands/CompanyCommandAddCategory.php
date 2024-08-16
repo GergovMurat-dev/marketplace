@@ -29,7 +29,7 @@ class CompanyCommandAddCategory
 
         if ($v->fails()) {
             return OperationResult::error(
-                message: 'Введены не корректные данные',
+                message: __('messages.incorrect_data'),
                 errors: $v->errors()->toArray()
             );
         }
